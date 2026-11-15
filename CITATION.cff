@@ -1,0 +1,40 @@
+cff-version: 1.2.0
+message: "If you use this formalization, please cite it as below, and cite Lavi's preprint for the mathematics."
+type: software
+title: "Lean 4 formalization of Section 2 of Lavi's proof of Foregger's conjecture"
+version: 1.0.0
+authors:
+  - family-names: Maciejewski
+    given-names: Tom
+    orcid: "https://orcid.org/0009-0004-5702-5302"
+license: Apache-2.0
+keywords:
+  - Lean 4
+  - Mathlib
+  - formal verification
+  - permanent
+  - doubly stochastic matrix
+  - nearly decomposable matrix
+  - Foregger's conjecture
+abstract: >-
+  A sorry-free Lean 4 / Mathlib formalization of Section 2 (Lemmas 2.1-2.5)
+  and of the cycle-support case of Y. Lavi's 2026 preprint on Foregger's
+  conjecture on minimum permanents of nearly decomposable doubly stochastic
+  matrices. The main theorems depend only on Lean's standard axioms. Sections
+  3-7 of the preprint are not formalized, so this is not a machine-checked
+  proof of Foregger's conjecture.
+references:
+  - type: article
+    title: "Foregger's Conjecture on Minimum Permanents of Nearly Decomposable Doubly Stochastic Matrices"
+    authors:
+      - family-names: Lavi
+        given-names: Yair
+    year: 2026
+    doi: 10.5281/zenodo.24208987
+  - type: article
+    title: "Foregger's Permanent Conjecture, Part IV: A Trivalent Entropic Base Case and Verification Package"
+    authors:
+      - family-names: Maciejewski
+        given-names: Tom
+    year: 2026
+    doi: 10.5281/zenodo.20510494
