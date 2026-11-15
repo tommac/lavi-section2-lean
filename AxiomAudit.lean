@@ -25,3 +25,13 @@ open LaviSection2
 #print axioms privateRowContraction_canonical
 -- Cycle branch
 #print axioms cycleSupported_foregger_sharp
+-- Lemma 3.1
+#print axioms lavi_lemma_3_1
+#print axioms faceFunctional_le_log_permanent
+-- Lemma 3.2 and the matrix bridge
+#print axioms lavi_lemma_3_2
+#print axioms coreFunctional_eq_faceFunctional
+-- Equations (3.5)-(3.7)
+#print axioms lavi_eq_3_5
+#print axioms subdivCharge_nonneg
+#print axioms lavi_eq_3_7

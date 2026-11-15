@@ -1,14 +1,14 @@
 {
-  "title": "Lean 4 formalization of Section 2 of Lavi's proof of Foregger's conjecture",
+  "title": "Lean 4 formalization of Sections 2–3 of Lavi's proof of Foregger's conjecture",
   "upload_type": "software",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "creators": [
     {
       "name": "Maciejewski, Tom",
       "orcid": "0009-0004-5702-5302"
     }
   ],
-  "description": "<p>A sorry-free Lean 4 / Mathlib formalization of Section 2 (Lemmas 2.1&ndash;2.5) and of the cycle-support case of Y. Lavi, <em>Foregger's Conjecture on Minimum Permanents of Nearly Decomposable Doubly Stochastic Matrices</em> (preprint, 2026). The main theorems depend only on Lean's standard axioms (propext, Classical.choice, Quot.sound), and the files contain no sorry, admit, axiom or native_decide.</p><p>The formalization also records several simplifications: the cofactor equalities (2.1) hold at a minimizer on any face, with no connectivity hypothesis; Lemma 2.4 follows from an expansion lemma (splitting a merged line preserves strict Hall) together with Lemma 2.3; and the Lemma 2.5 classification needs no noncycle hypothesis.</p><p><strong>Scope.</strong> Sections 3&ndash;7 of the preprint (entropy functional, tight cuts, Gurvits's capacity bound, the one-star bound and the induction) are not formalized. This record is therefore not a machine-checked proof of Foregger's conjecture.</p><p>The Lean code was developed with AI coding assistants (Anthropic's Claude and OpenAI's Codex), working under the author's direction. Lean's kernel checks every proof.</p>",
+  "description": "<p>A sorry-free Lean 4 / Mathlib formalization of Section 2 (Lemmas 2.1&ndash;2.5), Section 3 (Lemmas 3.1&ndash;3.2 and equations (3.5)&ndash;(3.7)) and the cycle-support case of Y. Lavi, <em>Foregger's Conjecture on Minimum Permanents of Nearly Decomposable Doubly Stochastic Matrices</em> (preprint, 2026). The main theorems depend only on Lean's standard axioms (propext, Classical.choice, Quot.sound), and the files contain no sorry, admit, axiom or native_decide.</p><p>The formalization also records several simplifications: the cofactor equalities (2.1) hold at a minimizer on any face, with no connectivity hypothesis; Lemma 2.4 follows from an expansion lemma (splitting a merged line preserves strict Hall) together with Lemma 2.3; the Lemma 2.5 classification needs no noncycle hypothesis; Lemma 3.1 is proved by an interior-minimizer perturbation argument without Lagrange multipliers or Sinkhorn scaling; and Lemma 3.2 holds for any endpoint-preserving merge map, without the entropy chain rule.</p><p><strong>Scope.</strong> Sections 4&ndash;7 of the preprint (tight cuts, Gurvits's capacity bound, the one-star bound, tight-cut leaves and the induction) are not formalized. This record is therefore not a machine-checked proof of Foregger's conjecture.</p><p>The Lean code was developed with AI coding assistants (Anthropic's Claude and OpenAI's Codex), working under the author's direction. Lean's kernel checks every proof.</p>",
   "license": "apache-2.0",
   "keywords": [
     "Lean 4",

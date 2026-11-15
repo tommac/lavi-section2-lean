@@ -1,9 +1,9 @@
 cff-version: 1.2.0
 message: "If you use this formalization, please cite it as below, and cite Lavi's preprint for the mathematics."
 type: software
-title: "Lean 4 formalization of Section 2 of Lavi's proof of Foregger's conjecture"
-version: 1.0.0
-doi: 10.5281/zenodo.24254584
+title: "Lean 4 formalization of Sections 2-3 of Lavi's proof of Foregger's conjecture"
+version: 1.1.0
+doi: 10.5281/zenodo.24254583
 date-released: 2026-11-15
 repository-code: "https://github.com/tommac/lavi-section2-lean"
 authors:
@@ -20,11 +20,12 @@ keywords:
   - nearly decomposable matrix
   - Foregger's conjecture
 abstract: >-
-  A sorry-free Lean 4 / Mathlib formalization of Section 2 (Lemmas 2.1-2.5)
-  and of the cycle-support case of Y. Lavi's 2026 preprint on Foregger's
+  A sorry-free Lean 4 / Mathlib formalization of Section 2 (Lemmas 2.1-2.5),
+  Section 3 (Lemmas 3.1-3.2 and equations (3.5)-(3.7)) and the cycle-support
+  case of Y. Lavi's 2026 preprint on Foregger's
   conjecture on minimum permanents of nearly decomposable doubly stochastic
   matrices. The main theorems depend only on Lean's standard axioms. Sections
-  3-7 of the preprint are not formalized, so this is not a machine-checked
+  4-7 of the preprint are not formalized, so this is not a machine-checked
   proof of Foregger's conjecture.
 references:
   - type: article
