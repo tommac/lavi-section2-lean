@@ -1,5 +1,8 @@
 # Lean 4 formalization of Section 2 of Lavi's proof of Foregger's conjecture
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24254583.svg)](https://doi.org/10.5281/zenodo.24254583)
+[![Lean build](https://github.com/tommac/lavi-section2-lean/actions/workflows/lean.yml/badge.svg)](https://github.com/tommac/lavi-section2-lean/actions/workflows/lean.yml)
+
 This is a machine-checked Lean 4 / Mathlib formalization of **Section 2
 (Lemmas 2.1–2.5)** and of the **cycle-support case** of
 
@@ -78,9 +81,15 @@ lake env lean AxiomAudit.lean
 
 ## Citation
 
-Please cite this formalization using `CITATION.cff` (GitHub shows a "Cite this
-repository" button), or using the Zenodo DOI of the release. Please also cite
-Lavi's preprint for the mathematics.
+Please cite this formalization as
+
+> T. Maciejewski, *Lean 4 formalization of Section 2 of Lavi's proof of
+> Foregger's conjecture*, version 1.0.0, Zenodo, 2026,
+> [doi:10.5281/zenodo.24254584](https://doi.org/10.5281/zenodo.24254584).
+
+The concept DOI [10.5281/zenodo.24254583](https://doi.org/10.5281/zenodo.24254583)
+always resolves to the latest version. GitHub's "Cite this repository" button
+reads `CITATION.cff`. Please also cite Lavi's preprint for the mathematics.
 
 ## Author and AI assistance
 

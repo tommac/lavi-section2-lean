@@ -3,6 +3,9 @@ message: "If you use this formalization, please cite it as below, and cite Lavi'
 type: software
 title: "Lean 4 formalization of Section 2 of Lavi's proof of Foregger's conjecture"
 version: 1.0.0
+doi: 10.5281/zenodo.24254584
+date-released: 2026-11-15
+repository-code: "https://github.com/tommac/lavi-section2-lean"
 authors:
   - family-names: Maciejewski
     given-names: Tom
