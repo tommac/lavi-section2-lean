@@ -1,14 +1,14 @@
 {
-  "title": "Lean 4 formalization of Lavi's proof of Foregger's conjecture, conditional on Gurvits's capacity inequality",
+  "title": "Lean 4 formalization of Lavi's proof of Foregger's conjecture",
   "upload_type": "software",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "creators": [
     {
       "name": "Maciejewski, Tom",
       "orcid": "0009-0004-5702-5302"
     }
   ],
-  "description": "<p>A sorry-free Lean 4 / Mathlib formalization of Sections 2&ndash;7 of Y. Lavi, <em>Foregger's Conjecture on Minimum Permanents of Nearly Decomposable Doubly Stochastic Matrices</em> (preprint, 2026). It ends with the paper's Theorem 1.1 (<code>lavi_theorem_1_1</code>): for n &ge; 2 and a doubly stochastic matrix A with nearly decomposable support, per A &ge; 2^(1&minus;n), with equality exactly for (1/2)(I + P) up to independent row and column permutations, and strictness on every noncycle nearly decomposable face.</p><p><strong>Conditional result.</strong> Theorem 1.1 is proved from one explicit hypothesis that is assumed and not proved here: Gurvits's degree-sensitive capacity inequality for permanents (L. Gurvits, Electron. J. Combin. 15 (2008), Theorem 2.4 and Corollary 2.7(a); M. Laurent and A. Schrijver, Amer. Math. Monthly 117 (2010), Corollary 1a). It is a hypothesis of the theorems that use it, not a Lean axiom. This record is therefore a machine-checked reduction of Theorem 1.1 to that inequality, not a complete machine-checked proof of Foregger's conjecture.</p><p>The main theorems depend only on Lean's standard axioms (propext, Classical.choice, Quot.sound), and the files contain no sorry, admit, axiom or native_decide. The Lean statements were translated from the paper with AI assistance and have not yet been independently reviewed by a second person.</p><p>The formalization also records simplifications of several arguments, listed in the README (for example Lemma 3.1 without Lagrange multipliers or Sinkhorn scaling, the removability rule (4.3) by a strict-Hall computation, the secant bounds (5.10) by Bernoulli's inequality, and an equality argument that avoids the edge count).</p><p>The Lean code was developed with AI coding assistants (Anthropic's Claude and OpenAI's Codex), working under the author's direction. Lean's kernel checks every proof.</p>",
+  "description": "<p>A sorry-free Lean 4 / Mathlib formalization of Sections 2&ndash;7 of Y. Lavi, <em>Foregger's Conjecture on Minimum Permanents of Nearly Decomposable Doubly Stochastic Matrices</em> (preprint, 2026), ending with the paper's Theorem 1.1. <code>foregger_conjecture</code> (also <code>lavi_theorem_1_1_unconditional</code>) states that for n &ge; 2, every doubly stochastic n &times; n matrix A with nearly decomposable support has per A &ge; 2^(1&minus;n), with equality exactly when A is obtained from (1/2)(I + P), P an n-cycle permutation matrix, by independent row and column permutations. <code>lavi_theorem_1_1_moreover_unconditional</code> states that on every nearly decomposable face whose support is not a cycle support, the minimum of the permanent is attained and exceeds 2^(1&minus;n).</p><p><strong>Gurvits's inequality.</strong> The proof uses Gurvits's degree-sensitive capacity inequality for permanents (L. Gurvits, Electron. J. Combin. 15 (2008), Theorem 2.4 and Corollary 2.7(a); M. Laurent and A. Schrijver, Amer. Math. Monthly 117 (2010), Corollary 1a). Version 1.2.0 assumed it as an explicit hypothesis. Version 1.3.0 proves it (<code>gurvitsCapacityInequality</code>), building on the Lean formalization of Gurvits's stable-polynomial argument in the RealRooted library by Per Alexandersson and contributors (https://github.com/PerAlexandersson/RealRooted, commit d667074, Apache-2.0). The degree-sensitive step adapts RealRooted's proof, with the degree in the eliminated variable in place of the total degree.</p><p><strong>Checks.</strong> The main theorems depend only on Lean's standard axioms (propext, Classical.choice, Quot.sound), and the repository contains no sorry, admit, axiom or native_decide. The dependency closure of the final theorems, including Mathlib and RealRooted, was re-checked by Lean's kernel in a fresh environment (leanchecker --fresh) and by the independent type checkers nanoda, lean4lean and con-leche. CI runs an axiom allowlist and nanoda on every push.</p><p><strong>Review status.</strong> The Lean statements were translated from the paper with AI assistance and compared with it by independent AI-assisted review passes, which found them faithful for n &ge; 2. They have not yet been reviewed by a second person.</p><p>The formalization also records simplifications of several arguments, listed in the README (for example Lemma 3.1 without Lagrange multipliers or Sinkhorn scaling, the removability rule (4.3) by a strict-Hall computation, the secant bounds (5.10) by Bernoulli's inequality, and an equality argument that avoids the edge count).</p><p>The Lean code was developed with AI coding assistants (Anthropic's Claude and OpenAI's Codex), working under the author's direction. Lean's kernel checks every proof.</p>",
   "license": "apache-2.0",
   "keywords": [
     "Lean 4",
@@ -17,7 +17,9 @@
     "permanent",
     "doubly stochastic matrix",
     "nearly decomposable matrix",
-    "Foregger's conjecture"
+    "Foregger's conjecture",
+    "Gurvits's capacity inequality",
+    "real stable polynomials"
   ],
   "related_identifiers": [
     {
@@ -31,6 +33,12 @@
       "relation": "references",
       "resource_type": "publication-preprint",
       "scheme": "doi"
+    },
+    {
+      "identifier": "https://github.com/PerAlexandersson/RealRooted",
+      "relation": "requires",
+      "resource_type": "software",
+      "scheme": "url"
     }
   ]
 }

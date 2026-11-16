@@ -1,10 +1,10 @@
 cff-version: 1.2.0
-message: "If you use this formalization, please cite it as below, and cite Lavi's preprint for the mathematics."
+message: "If you use this formalization, please cite it as below, and cite Lavi's preprint for the mathematics and RealRooted for the formalization of Gurvits's argument."
 type: software
-title: "Lean 4 formalization of Lavi's proof of Foregger's conjecture, conditional on Gurvits's capacity inequality"
-version: 1.2.0
+title: "Lean 4 formalization of Lavi's proof of Foregger's conjecture"
+version: 1.3.0
 doi: 10.5281/zenodo.24254583
-date-released: 2026-11-15
+date-released: 2026-11-16
 repository-code: "https://github.com/tommac/lavi-section2-lean"
 authors:
   - family-names: Maciejewski
@@ -19,16 +19,22 @@ keywords:
   - doubly stochastic matrix
   - nearly decomposable matrix
   - Foregger's conjecture
+  - Gurvits's capacity inequality
 abstract: >-
   A sorry-free Lean 4 / Mathlib formalization of Sections 2-7 of Y. Lavi's
   2026 preprint on Foregger's conjecture on minimum permanents of nearly
   decomposable doubly stochastic matrices. It ends with the paper's Theorem
-  1.1 proved from one explicit hypothesis that is assumed and not proved:
-  Gurvits's degree-sensitive capacity inequality for permanents (Gurvits 2008;
-  Laurent-Schrijver 2010, Corollary 1a). The main theorems depend only on
-  Lean's standard axioms. Because Gurvits's inequality is not formalized, this
-  is a machine-checked reduction of Theorem 1.1 to that inequality, not a
-  complete machine-checked proof of Foregger's conjecture.
+  1.1: for n >= 2, every doubly stochastic n x n matrix with nearly
+  decomposable support has permanent at least 2^(1-n), with equality exactly
+  for (1/2)(I + P), P the permutation matrix of an n-cycle, up to independent
+  row and column permutations, and strict inequality on every nearly
+  decomposable face that is not a cycle face. Gurvits's degree-sensitive
+  capacity inequality, which the proof uses and which version 1.2.0 assumed,
+  is proved here from the RealRooted library's Lean formalization of Gurvits's
+  argument. The main theorems depend only on Lean's standard axioms and have
+  been re-checked by independent type checkers. The Lean statements were
+  compared with the paper by AI-assisted review and have not yet been reviewed
+  by a second person.
 references:
   - type: article
     title: "Foregger's Conjecture on Minimum Permanents of Nearly Decomposable Doubly Stochastic Matrices"
@@ -37,6 +43,33 @@ references:
         given-names: Yair
     year: 2026
     doi: 10.5281/zenodo.24208987
+  - type: software
+    title: "RealRooted"
+    authors:
+      - family-names: Alexandersson
+        given-names: Per
+      - name: "RealRooted contributors"
+    repository-code: "https://github.com/PerAlexandersson/RealRooted"
+    commit: d667074269bb822fa18ca9142a14fdd90734dd57
+    license: Apache-2.0
+  - type: article
+    title: "Van der Waerden/Schrijver-Valiant like conjectures and stable (aka hyperbolic) homogeneous polynomials: one theorem for all"
+    authors:
+      - family-names: Gurvits
+        given-names: Leonid
+    journal: "Electronic Journal of Combinatorics"
+    volume: 15
+    year: 2008
+  - type: article
+    title: "On Leonid Gurvits's proof for permanents"
+    authors:
+      - family-names: Laurent
+        given-names: Monique
+      - family-names: Schrijver
+        given-names: Alexander
+    journal: "American Mathematical Monthly"
+    volume: 117
+    year: 2010
   - type: article
     title: "Foregger's Permanent Conjecture, Part IV: A Trivalent Entropic Base Case and Verification Package"
     authors:

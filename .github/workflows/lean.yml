@@ -8,11 +8,26 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: leanprover/lean-action@v1
-      - name: Axiom audit
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: leanprover/lean-action@ba3fdfe5c4476c925da13bf11a005ddb47e47aee # v1
+        with:
+          # Release tags are built from scratch, not restored from the GitHub cache.
+          use-github-cache: ${{ !startsWith(github.ref, 'refs/tags/') }}
+      - name: No sorry, admit or native_decide in the sources
+        shell: bash
+        run: |
+          if grep -rnwE 'sorry|admit|native_decide' --include='*.lean' LaviSection2 LaviSection2.lean; then
+            echo "::error::found sorry, admit or native_decide"; exit 1
+          fi
+      - name: Axiom audit (allowlist of the three standard axioms)
+        shell: bash
         run: |
           lake env lean AxiomAudit.lean | tee axioms.txt
-          if grep -E "sorryAx|ofReduceBool|Lean\.trustCompiler" axioms.txt; then
-            echo "Non-standard axiom found"; exit 1
-          fi
+          python3 scripts/check_axioms.py AxiomAudit.lean axioms.txt
+      - name: Independent kernel check (nanoda, standard axioms only)
+        shell: bash
+        run: scripts/kernel_check.sh
+      - name: Fresh-kernel replay of the whole environment (release tags only)
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: lake env leanchecker --fresh LaviSection2.LaviTheorem11Unconditional
