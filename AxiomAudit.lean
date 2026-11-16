@@ -35,3 +35,41 @@ open LaviSection2
 #print axioms lavi_eq_3_5
 #print axioms subdivCharge_nonneg
 #print axioms lavi_eq_3_7
+-- Section 4: tight cuts
+#print axioms ShoreCut.lavi_eq_4_1
+#print axioms ShoreCut.lavi_lemma_4_1
+#print axioms ShoreCut.coreFI_cut_iff
+#print axioms ShoreCut.lavi_eq_4_3
+#print axioms ShoreCut.lavi_eq_4_4
+#print axioms ShoreCut.lavi_eq_4_4'
+#print axioms ShoreCut.lavi_eq_4_5
+#print axioms ShoreCut.lavi_eq_4_5'
+#print axioms tightCut_orientation
+#print axioms exists_shoreCut_of_tight
+-- Section 5: one-star bound (Gurvits's inequality is the hypothesis `hG`, not an axiom)
+#print axioms permanent_expandedMatrix_eq_elim
+#print axioms eq_expandedMatrix_liftFlow
+#print axioms capacity_elim_ge
+#print axioms rowFactor_secant
+#print axioms colFactor_secant
+#print axioms lavi_lemma_5_1
+#print axioms lavi_corollary_5_2
+#print axioms lavi_corollary_5_2_col
+-- Section 6: leaves
+#print axioms lavi_lemma_6_1
+#print axioms lavi_lemma_6_2
+#print axioms ShoreCut.lavi_eq_6_1
+#print axioms ShoreCut.lavi_eq_6_1'
+#print axioms ShoreCut.lavi_lemma_6_3
+#print axioms ShoreCut.lavi_lemma_6_3'
+#print axioms ShoreCut.lavi_eq_6_5
+#print axioms ShoreCut.lavi_eq_6_5'
+-- Section 7: the induction and Theorem 1.1 (conditional on `GurvitsCapacityInequality`)
+#print axioms lavi_eq_7_2
+#print axioms lavi_lemma_2_5_univ
+#print axioms terminal_branch_strict
+#print axioms foreggerSharpAt_of_terminal_strict
+#print axioms foreggerSharpAt_of_gurvits
+#print axioms lavi_theorem_1_1
+#print axioms lavi_theorem_1_1_moreover
+#print axioms lavi_theorem_1_1_attained

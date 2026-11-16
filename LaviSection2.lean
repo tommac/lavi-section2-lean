@@ -1,4 +1,4 @@
--- Lean 4 formalization of Sections 2 and 3 and the cycle case of Y. Lavi's preprint on Foregger's conjecture.
+-- Lean 4 formalization of Y. Lavi's preprint on Foregger's conjecture, Sections 2-7, conditional on Gurvits's capacity inequality.
 import LaviSection2.Definitions
 import LaviSection2.LaviCanonicalExpansion
 import LaviSection2.LaviCofactorEqualization
@@ -18,3 +18,26 @@ import LaviSection2.LaviMatchingEntropy
 import LaviSection2.LaviFaceVariational
 import LaviSection2.LaviCoreEntropy
 import LaviSection2.LaviExpansionEntropy
+import LaviSection2.Arithmetic
+import LaviSection2.Transpose
+import LaviSection2.RelabelInvariance
+import LaviSection2.LaviTightCut
+import LaviSection2.LaviTightCutEntropy
+import LaviSection2.LaviTightCutFI
+import LaviSection2.LaviTightCutAccounting
+import LaviSection2.LaviTightCutOrientation
+import LaviSection2.LaviOneStarConstants
+import LaviSection2.LaviOneStarPermanent
+import LaviSection2.LaviOneStarCapacity
+import LaviSection2.LaviOneStar
+import LaviSection2.LaviCutFree
+import LaviSection2.LaviLeafGap
+import LaviSection2.LaviMinShore
+import LaviSection2.LaviFourVertexLeaf
+import LaviSection2.LaviTerminalBridge
+import LaviSection2.LaviTerminalBranch
+import LaviSection2.LaviFaceBasics
+import LaviSection2.LaviContractionBranch
+import LaviSection2.LaviEqualityCase
+import LaviSection2.LaviInduction
+import LaviSection2.LaviTheorem11
