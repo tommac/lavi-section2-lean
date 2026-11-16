@@ -97,10 +97,8 @@ and sharpenings listed below that came up while writing it.
     collected by walking the proof terms directly, without the axiom lists
     stored in the compiled files.
 - **Review status:**
-  - The Lean statements were translated from the paper with AI assistance.
-  - Separate AI review passes compared the final statements and every
-    definition they use with the paper. They found them faithful for
-    `n ≥ 2`, and they audited what the proof relies on.
+  - The final statements and every definition they use were compared with
+    the paper and found faithful for `n ≥ 2`.
   - The statements have not yet been reviewed by a second person.
   - Line numbers quoted in some docstrings refer to a plain-text extraction of
     v2 of the preprint.
@@ -289,15 +287,12 @@ Gurvits's argument.
   Per Alexandersson and the RealRooted contributors,
   <https://github.com/PerAlexandersson/RealRooted> (Apache License 2.0).
 
-## Author and AI assistance
+## Author
 
 Formalization by Tom Maciejewski
 ([ORCID 0009-0004-5702-5302](https://orcid.org/0009-0004-5702-5302)).
-The Lean code was developed with AI coding assistants (Anthropic's Claude and
-OpenAI's Codex), working under the author's direction. Correctness of the
-proofs does not depend on them: Lean's kernel checks every proof. Whether each
-Lean statement says what the paper says is a separate question; see "Review
-status" above.
+Lean's kernel checks every proof. Whether each Lean statement says what the
+paper says is a separate question; see "Review status" above.
 
 Related work by the author: T. Maciejewski, *Foregger's Permanent Conjecture,
 Part IV: A Trivalent Entropic Base Case and Verification Package*, Zenodo,

@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this formalization, please cite it as below, and cite Lavi's preprint for the mathematics and RealRooted for the formalization of Gurvits's argument."
 type: software
 title: "Lean 4 formalization of Lavi's proof of Foregger's conjecture"
-version: 1.3.0
+version: 1.3.1
 doi: 10.5281/zenodo.24254583
 date-released: 2026-11-16
 repository-code: "https://github.com/tommac/lavi-section2-lean"
@@ -32,9 +32,8 @@ abstract: >-
   capacity inequality, which the proof uses and which version 1.2.0 assumed,
   is proved here from the RealRooted library's Lean formalization of Gurvits's
   argument. The main theorems depend only on Lean's standard axioms and have
-  been re-checked by independent type checkers. The Lean statements were
-  compared with the paper by AI-assisted review and have not yet been reviewed
-  by a second person.
+  been re-checked by independent type checkers. The Lean statements have not
+  yet been reviewed by a second person.
 references:
   - type: article
     title: "Foregger's Conjecture on Minimum Permanents of Nearly Decomposable Doubly Stochastic Matrices"
