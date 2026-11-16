@@ -1,4 +1,4 @@
-import Mathlib.Data.Real.Basic
+import Mathlib.Basic.Real.Basic
 import Mathlib.Tactic.NormNum
 import Mathlib.Tactic.Linarith
 
@@ -6,9 +6,9 @@ import Mathlib.Tactic.Linarith
 # Exact arithmetic in Lavi's one-star estimate
 
 This module kernel-checks the rational constant identities at the end of
-Lemma 5.1 of Yair Lavi's 2026 preprint.  It is intentionally only the scalar
-tail of that lemma: the Gurvits capacity inequality and its graph-to-polynomial
-specialization still require separate formalization.
+Lemma 5.1 of Yair Lavi's 2026 preprint: the scalar tail of that lemma.  The
+reduction from the core to the eliminated matrix is in `LaviOneStar.lean`, and
+the Gurvits capacity inequality is proved in `GurvitsRealRooted.lean`.
 -/
 
 namespace LaviSection2

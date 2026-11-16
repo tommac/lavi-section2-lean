@@ -653,9 +653,9 @@ theorem isHalfCycle_iff_isCycleSupport {n : ℕ} {A : Square n} :
     refine ⟨r, c, p, hp, fun i j => ?_⟩
     show A (r i) (c j) = _
     by_cases h : j = i ∨ j = p i
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       exact (hhalf (r i) (c j)).resolve_left ((hD i j).2 h)
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       by_contra hne
       exact h ((hD i j).1 hne)
 

@@ -19,15 +19,14 @@ single explicit hypothesis `hG : GurvitsCapacityInequality`:
 * `lavi_theorem_1_1`: the bound and the equality characterization;
 * `lavi_theorem_1_1_moreover`: strictness on every noncycle ND face;
 * `lavi_theorem_1_1_attained`: the bound is attained in every order `n ≥ 2`
-  (unconditional), so the hypotheses are satisfiable and the bound is sharp.
+  (no Gurvits hypothesis), so the matrix hypotheses `hA` and `hND` are
+  satisfiable in every order `n ≥ 2` and the bound is sharp.
 
-**Status.**  `GurvitsCapacityInequality` (file `LaviOneStarCapacity.lean`) is
-Gurvits's degree-sensitive capacity inequality for permanents, a published
-theorem that is *assumed, not proved*, in this development.  It is a
-hypothesis of the theorems below, not a Lean axiom.  These theorems are
-therefore a machine-checked reduction of Theorem 1.1 to that inequality; they
-are not, by themselves, a complete machine-checked proof of Foregger's
-conjecture.
+**The hypothesis `hG`.**  `GurvitsCapacityInequality` (file
+`LaviOneStarCapacity.lean`) is Gurvits's degree-sensitive capacity inequality
+for permanents.  The theorems in this file take it as an explicit hypothesis.
+It is proved in `GurvitsRealRooted.lean` (`gurvitsCapacityInequality`), and
+`LaviTheorem11Unconditional.lean` states these theorems without it.
 -/
 
 namespace LaviSection2
@@ -36,8 +35,10 @@ open Finset
 
 /-- **The induction of Section 7, assuming Gurvits's inequality.**  In every
 order `n`, every doubly stochastic matrix with nearly decomposable support has
-permanent at least `foreggerTarget n = 2^(1-n)`, and equality forces a half
-cycle.  The contraction branch, the base cases and the equality argument are
+permanent at least `foreggerTarget n`, and equality forces a half cycle.  For
+`n ≥ 1`, `foreggerTarget n = 2^(1-n)`; order one is vacuous with these
+definitions, since the only nearly decomposable support of order one is empty.
+The contraction branch, the base cases and the equality argument are
 `foreggerSharpAt_of_terminal_strict`; the terminal branch is
 `terminal_branch_strict`, which is where `hG` enters. -/
 theorem foreggerSharpAt_of_gurvits (hG : GurvitsCapacityInequality) : ∀ n, ForeggerSharpAt n :=
@@ -70,9 +71,9 @@ theorem halfCycleMatrix_apply {n : ℕ} (hn : 2 ≤ n) (i j : Fin n) :
   rw [hentry]
   by_cases h1 : j = i <;> by_cases h2 : j = finRotate n i
   · exact absurd (h2.symm.trans h1) hne
-  · rw [if_pos h1.symm, if_neg (fun h => h2 h.symm), if_pos (Or.inl h1)]; norm_num
-  · rw [if_neg (fun h => h1 h.symm), if_pos h2.symm, if_pos (Or.inr h2)]; norm_num
-  · rw [if_neg (fun h => h1 h.symm), if_neg (fun h => h2 h.symm), if_neg (not_or.2 ⟨h1, h2⟩)]
+  · rw [ite_eq_left h1.symm, ite_eq_right (fun h => h2 h.symm), ite_eq_left (Or.inl h1)]; norm_num
+  · rw [ite_eq_right (fun h => h1 h.symm), ite_eq_left h2.symm, ite_eq_left (Or.inr h2)]; norm_num
+  · rw [ite_eq_right (fun h => h1 h.symm), ite_eq_right (fun h => h2 h.symm), ite_eq_right (not_or.2 ⟨h1, h2⟩)]
     norm_num
 
 /-- `A` is obtained from `½(I_n + P_n)` by independent row and column
@@ -129,8 +130,8 @@ theorem lavi_theorem_1_1_moreover (hG : GurvitsCapacityInequality) {n : ℕ} (hn
 
 /-- **The bound is attained (unconditional).**  For every `n ≥ 2` the matrix
 `½(I_n + P_n)` is doubly stochastic with nearly decomposable support and has
-permanent exactly `2^(1-n)`.  In particular the hypotheses of
-`lavi_theorem_1_1` are satisfiable in every order. -/
+permanent exactly `2^(1-n)`.  In particular the matrix hypotheses `hA` and
+`hND` of `lavi_theorem_1_1` are satisfiable in every order `n ≥ 2`. -/
 theorem lavi_theorem_1_1_attained {n : ℕ} (hn : 2 ≤ n) :
     DoublyStochastic (halfCycleMatrix n) ∧ NearlyDecomposable (support (halfCycleMatrix n)) ∧
       permanent (halfCycleMatrix n) = (2 : ℝ) ^ ((1 : ℤ) - (n : ℤ)) := by

@@ -123,7 +123,7 @@ theorem doublyStochastic_cycleFaceMatrix {n : ℕ} (hn : 2 ≤ n)
         apply Fintype.sum_congr
         intro x
         have hcond : (j = p x) ↔ x = p.symm j := by
-          rw [eq_comm, p.apply_eq_iff_eq_symm_apply]
+          rw [p.eq_symm_apply, eq_comm]
         by_cases hxj : x = j
         · subst x
           simp [cycleFaceMatrix, hjp]
@@ -266,7 +266,7 @@ theorem permanent_cycleFaceMatrix {n : ℕ} (hn : 2 ≤ n)
         exact (cycle_matching_eq_id_or_cycle hn hp fun i ↦
           (eq_or_ne (σ i) i).imp_right (hnone i)).elim hσone hσp
       obtain ⟨i, hi, hip⟩ := hbad
-      rw [if_neg hσone, if_neg hσp]
+      rw [ite_eq_right hσone, ite_eq_right hσp]
       apply Finset.prod_eq_zero (Finset.mem_univ i)
       simp [cycleFaceMatrix, hi, hip]
   simp only [permanent, hterm]
@@ -281,7 +281,7 @@ theorem permanent_cycleFaceMatrix {n : ℕ} (hn : 2 ≤ n)
       by_cases hσone : σ = 1
       · subst σ
         simp [honep]
-      · simp only [if_neg hσone, zero_add]
+      · simp only [ite_eq_right hσone, zero_add]
     _ = (∑ σ : Equiv.Perm (Fin n), if σ = 1 then t ^ n else 0) +
           ∑ σ : Equiv.Perm (Fin n), if σ = p then (1 - t) ^ n else 0 := by
       rw [Finset.sum_add_distrib]

@@ -15,8 +15,10 @@ import Mathlib.Combinatorics.Pigeonhole
   resp. marker row) of a nontrivial tight cut of a core of minimum occurrence
   degree three, at every positive feasible flow,
   `G_B - ∑_{e ∈ N} δ(x_e) > 0`, with `ℓ_B ≥ 2` and `|N| ≤ 1`.
-* `lavi_eq_6_5`: the order count `n = (k - 1) + ℓ_B + n_R - |N|`, hence
-  `n_R < n` whenever `k ≥ 3` and `N = ∅`, or `k = 2`, `ℓ_B ≥ 2`, `|N| ≤ 1`.
+* `lavi_eq_6_5`: the order count `n = (k - 1) + ℓ_B + n_R - |N|`.  Its
+  consequence `n_R < n` (whenever `k ≥ 3` and `N = ∅`, or `k = 2`, `ℓ_B ≥ 2`,
+  `|N| ≤ 1`) is `ShoreCut.remainder_lt₁` / `remainder_lt₂` in
+  `LaviTerminalBranch.lean`.
 -/
 
 set_option linter.unusedSectionVars false
@@ -54,8 +56,8 @@ theorem faceFunctional_two {X : Square 2} (hX : DoublyStochastic X) :
     have hm : marginal μ 0 0 = X 0 0 := by rw [hμ.2.2]
     unfold marginal at hm
     rw [Finset.sum_filter, sum_perm_fin_two] at hm
-    simp only [Perm.one_apply, if_true, swap_apply_left, show ¬ (1 : Fin 2) = 0 by decide,
-      if_false, add_zero] at hm
+    simp only [Perm.one_apply, ite_true, swap_apply_left, show ¬ (1 : Fin 2) = 0 by decide,
+      ite_false, add_zero] at hm
     have hs := hμ.2.1
     rw [sum_perm_fin_two] at hs
     unfold lawEntropy
@@ -130,7 +132,7 @@ theorem normalizedGap_order_two (hU : Fintype.card U = 2) (hV : Fintype.card V =
       ∑ e ∈ (univ : Finset E).filter (fun e => row e = u ∧ col e = w), x e := by
     unfold aggregateMatrix mergeFlow
     rw [hR0, hC0]
-    congr 1; ext e; simp [Prod.ext_iff]
+    congr 1 <;> ext e <;> simp [Prod.ext_iff]
   unfold normalizedGap subdivCharge
   rw [hF, h00, hU]
   push_cast

@@ -250,10 +250,10 @@ theorem expMatch_surjective :
     simp only [expMatchFun]
     rcases lmatch_exp_inl N u with ⟨d, hd, -⟩ | ⟨ℓ, hℓ, -⟩
     · have hM : M u = d.1 := by simp [hMdef, hd, baseEdge]
-      rw [dif_neg (by rw [hM]; exact d.2), hd]
+      rw [dite_eq_right (by rw [hM]; exact d.2), hd]
       simp only [hM]
     · have hM : M u = ℓ.1 := by simp [hMdef, hℓ, baseEdge]
-      rw [dif_pos (by rw [hM]; exact ℓ.2), hℓ]
+      rw [dite_eq_left (by rw [hM]; exact ℓ.2), hℓ]
       simp only [hM]
   · show expMatchFun (row := row) M (Sum.inr ℓ) = N.1 (Sum.inr ℓ)
     simp only [expMatchFun]

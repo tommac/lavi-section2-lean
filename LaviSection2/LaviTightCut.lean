@@ -101,16 +101,16 @@ theorem col₁_congr {e e' : K.E₁} (h : col e.1 = col e'.1) : K.col₁ e = K.c
   unfold col₁
   by_cases h₁ : K.sC (col e.1)
   · have h₂ : K.sC (col e'.1) := h ▸ h₁
-    rw [dif_pos h₁, dif_pos h₂]
+    rw [dite_eq_left h₁, dite_eq_left h₂]
     exact congrArg Sum.inl (Subtype.ext h)
   · have h₂ : ¬ K.sC (col e'.1) := h ▸ h₁
-    rw [dif_neg h₁, dif_neg h₂]
+    rw [dite_eq_right h₁, dite_eq_right h₂]
 
 theorem row₂_of_sR {e : K.E₂} (h : K.sR (row e.1)) : K.row₂ e = Sum.inl () := by
-  unfold row₂; rw [dif_pos h]
+  unfold row₂; rw [dite_eq_left h]
 
 theorem row₂_of_not_sR {e : K.E₂} (h : ¬ K.sR (row e.1)) : K.row₂ e = Sum.inr ⟨row e.1, h⟩ := by
-  unfold row₂; rw [dif_neg h]
+  unfold row₂; rw [dite_eq_right h]
 
 theorem row_of_row₂_eq_inr {e : K.E₂} {u : K.U₂} (h : K.row₂ e = Sum.inr u) : row e.1 = u.1 := by
   unfold row₂ at h
@@ -148,7 +148,7 @@ theorem proj₁_bij (M : LMatch row col) :
     have hv : K.sC (col (M.1 u)) := by rw [hu]; exact v.2
     show K.col₁ ⟨M.1 u, _⟩ = Sum.inl v
     unfold col₁
-    rw [dif_pos hv]
+    rw [dite_eq_left hv]
     exact congrArg Sum.inl (Subtype.ext hu)
 
 /-- The projection of a parent matching to `H₁`. -/
@@ -302,14 +302,14 @@ theorem glueFun_bij (M₁ : LMatch K.row₁ K.col₁) (M₂ : LMatch K.row₂ K.
   · intro u u' hc
     simp only [glueFun] at hc
     by_cases hu : K.sR u <;> by_cases hu' : K.sR u'
-    · rw [dif_pos hu, dif_pos hu'] at hc
+    · rw [dite_eq_left hu, dite_eq_left hu'] at hc
       have := M₁.2.2.1 (K.col₁_congr hc)
       exact congrArg Subtype.val this
-    · rw [dif_pos hu, dif_neg hu'] at hc
+    · rw [dite_eq_left hu, dite_eq_right hu'] at hc
       exact (mixed _ _ hc).elim
-    · rw [dif_neg hu, dif_pos hu'] at hc
+    · rw [dite_eq_right hu, dite_eq_left hu'] at hc
       exact (mixed _ _ hc.symm).elim
-    · rw [dif_neg hu, dif_neg hu'] at hc
+    · rw [dite_eq_right hu, dite_eq_right hu'] at hc
       have := M₂.2.2.1 (Subtype.ext hc : K.col₂ (M₂.1 _) = K.col₂ (M₂.1 _))
       exact congrArg Subtype.val (Sum.inr.inj this)
   · intro v
@@ -318,7 +318,7 @@ theorem glueFun_bij (M₁ : LMatch K.row₁ K.col₁) (M₂ : LMatch K.row₂ K.
       refine ⟨w.1, ?_⟩
       show col (K.glueFun M₁ M₂ w.1) = v
       unfold glueFun
-      rw [dif_pos w.2]
+      rw [dite_eq_left w.2]
       exact K.col_of_col₁_eq_inl hw
     · obtain ⟨r, hr⟩ := M₂.2.2.2 ⟨v, hv⟩
       have hr' : col (M₂.1 r).1 = v := Subtype.ext_iff.1 hr
@@ -327,14 +327,14 @@ theorem glueFun_bij (M₁ : LMatch K.row₁ K.col₁) (M₂ : LMatch K.row₂ K.
         refine ⟨w.1, ?_⟩
         show col (K.glueFun M₁ M₂ w.1) = v
         unfold glueFun
-        rw [dif_neg w.2]
+        rw [dite_eq_right w.2]
         exact hr'
       | inl t =>
         cases t
         refine ⟨(K.markRow₁ M₁).1, ?_⟩
         show col (K.glueFun M₁ M₂ (K.markRow₁ M₁).1) = v
         unfold glueFun
-        rw [dif_pos (K.markRow₁ M₁).2]
+        rw [dite_eq_left (K.markRow₁ M₁).2]
         have : (M₁.1 ⟨(K.markRow₁ M₁).1, (K.markRow₁ M₁).2⟩).1 = (M₂.1 (Sum.inl ())).1 := h
         rw [this]
         exact hr'
@@ -349,7 +349,7 @@ theorem proj₁_glue (M₁ : LMatch K.row₁ K.col₁) (M₂ : LMatch K.row₂ K
   refine Subtype.ext (funext fun u => Subtype.ext ?_)
   show K.glueFun M₁ M₂ u.1 = (M₁.1 u).1
   unfold glueFun
-  rw [dif_pos u.2]
+  rw [dite_eq_left u.2]
 
 theorem proj₂_glue (M₁ : LMatch K.row₁ K.col₁) (M₂ : LMatch K.row₂ K.col₂)
     (h : K.label₁ M₁ = K.label₂ M₂) : K.proj₂ (K.glue M₁ M₂ h) = M₂ := by
@@ -363,7 +363,7 @@ theorem proj₂_glue (M₁ : LMatch K.row₁ K.col₁) (M₂ : LMatch K.row₂ K
   | inr u =>
     show K.glueFun M₁ M₂ u.1 = (M₂.1 (Sum.inr u)).1
     unfold glueFun
-    rw [dif_neg u.2]
+    rw [dite_eq_right u.2]
 
 theorem glue_proj (M : LMatch row col) : K.glue (K.proj₁ M) (K.proj₂ M) rfl = M := by
   refine Subtype.ext (funext fun u => ?_)

@@ -259,7 +259,7 @@ theorem contractColumn_private_iff (hL : L ⊆ O) {e₀ : E} (he₀ : e₀ ∈ L
   rcases x with ⟨u | e, hx⟩ <;> rcases y with ⟨v | e', hy⟩
   · by_cases hu : u = row e₀
     · subst hu
-      simp only [contractColumn, if_true, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
+      simp only [contractColumn, ite_true, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
       constructor
       · rintro (⟨e, he, heL, h1, h2⟩ | h)
         · exact ⟨e, he, (hnotL e).2 (Or.inr heL), h1, h2⟩
@@ -269,7 +269,7 @@ theorem contractColumn_private_iff (hL : L ⊆ O) {e₀ : E} (he₀ : e₀ ∈ L
         · exact Or.inr h2
         · exact Or.inl ⟨e, he, heL', h1, h2⟩
     · have hne : (Sum.inl u : U ⊕ L) ≠ Sum.inl (row e₀) := fun h => hu (Sum.inl_injective h)
-      simp only [contractColumn, hne, if_false, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
+      simp only [contractColumn, hne, ite_false, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
       constructor
       · rintro ⟨e, he, heL, h1, h2⟩
         exact ⟨e, he, (hnotL e).2 (Or.inr heL), h1, h2⟩
@@ -280,16 +280,16 @@ theorem contractColumn_private_iff (hL : L ⊆ O) {e₀ : E} (he₀ : e₀ ∈ L
   · have hne' : e' ≠ ⟨e₀, he₀⟩ := fun h => hy (congrArg Sum.inr h)
     by_cases hu : u = row e₀
     · subst hu
-      simp only [contractColumn, if_true, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
+      simp only [contractColumn, ite_true, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
       constructor
       · rintro (h | h)
         · exact h
         · exact absurd h.symm hne'
       · exact Or.inl
     · have hne : (Sum.inl u : U ⊕ L) ≠ Sum.inl (row e₀) := fun h => hu (Sum.inl_injective h)
-      simp only [contractColumn, hne, if_false, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
-  · simp only [contractColumn, reduceCtorEq, if_false, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
-  · simp only [contractColumn, reduceCtorEq, if_false, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
+      simp only [contractColumn, hne, ite_false, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
+  · simp only [contractColumn, reduceCtorEq, ite_false, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
+  · simp only [contractColumn, reduceCtorEq, ite_false, dropInrEquiv, Equiv.coe_fn_mk, expAdj]
     constructor
     · rintro rfl
       rfl
@@ -492,6 +492,7 @@ theorem nearlyDecomposableOn_contractColumn_congr {α β : Type*} [Fintype α] [
       NearlyDecomposableOn (contractColumn T r s c) := by
   refine nearlyDecomposableOn_relabel_iff (Equiv.refl _) (Equiv.refl _) fun x y => ?_
   simp only [contractColumn, Equiv.refl_apply, h]
+  exact Iff.rfl
 
 theorem strictHallOn_contractColumn_congr {α β : Type*} [Fintype α] [Fintype β]
     [DecidableEq α] [DecidableEq β] {S T : α → β → Prop} (h : ∀ a b, S a b ↔ T a b)

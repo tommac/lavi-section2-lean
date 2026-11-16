@@ -185,7 +185,7 @@ theorem faceMinimizer_cofactor_eq {D : Fin (m + 1) → Fin (m + 1) → Prop}
     apply hmin
     have hentry : ∀ a b, (A + t • X) a b = A a b * (1 + t * Y a b) := by
       intro a b
-      simp [X]
+      show A a b + t * (A a b * Y a b) = A a b * (1 + t * Y a b)
       ring
     refine ⟨⟨?_, ?_, ?_⟩, ?_⟩
     · intro a b

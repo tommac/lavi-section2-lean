@@ -125,7 +125,7 @@ theorem sum_mul_sum_edge (μ : LMatch row col → ℝ) (g : E → ℝ) :
     _ = ∑ e, coreMarginal row col μ e * g e := by
         rw [Finset.sum_comm]
         refine Finset.sum_congr rfl fun e _ => ?_
-        rw [Finset.sum_ite_eq, if_pos (Finset.mem_univ _), coreMarginal, Finset.sum_mul]
+        rw [Finset.sum_ite_eq, ite_eq_left (Finset.mem_univ _), coreMarginal, Finset.sum_mul]
 
 /-- Entropy is at most the number of matchings (a crude but sufficient bound). -/
 theorem coreLawEntropy_le_card {μ : LMatch row col → ℝ} (hμ : ∀ M, 0 ≤ μ M) :
@@ -312,9 +312,9 @@ theorem isCoreLaw_liftLaw {x : E → ℝ} (hx : ∀ e, 0 ≤ x e) {ν : LMatch r
       have hrest : ∏ u ∈ univ.erase u₀, f u (M.1 u) =
           ∏ u ∈ univ.erase u₀, relabelProb φ x (M.1 u) :=
         Finset.prod_congr rfl fun u hu => by
-          simp only [f, if_neg (Finset.ne_of_mem_erase hu)]
+          simp only [f, ite_eq_right (Finset.ne_of_mem_erase hu)]
       rw [hrest]
-      simp only [f, if_true]
+      simp only [f, ite_true]
       split_ifs <;> ring
     have hfib : ∀ M' : LMatch row' col', ν M' *
         ∏ u, ∑ e₂ ∈ (univ : Finset E).filter (fun e₂ => φ e₂ = M'.1 u), f u e₂ =
@@ -326,12 +326,12 @@ theorem isCoreLaw_liftLaw {x : E → ℝ} (hx : ∀ e, 0 ≤ x e) {ν : LMatch r
       have hrest : ∏ u ∈ univ.erase u₀,
           ∑ e₂ ∈ (univ : Finset E).filter (fun e₂ => φ e₂ = M'.1 u), f u e₂ = 1 := by
         refine Finset.prod_eq_one fun u hu => ?_
-        simp only [f, if_neg (Finset.ne_of_mem_erase hu)]
+        simp only [f, ite_eq_right (Finset.ne_of_mem_erase hu)]
         refine sum_relabelProb φ _ ?_
         exact ne_of_gt (lt_of_lt_of_le (lt_of_le_of_ne (hν.1 M') (Ne.symm h0))
           (hν.le_edge M' u))
       rw [hrest, mul_one]
-      simp only [f, if_true]
+      simp only [f, ite_true]
       rw [Finset.sum_ite_eq']
       simp only [Finset.mem_filter, Finset.mem_univ, true_and]
       split_ifs with h1 h2 h2

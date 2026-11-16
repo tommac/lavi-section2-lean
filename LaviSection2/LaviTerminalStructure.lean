@@ -211,20 +211,20 @@ noncomputable def col (e : Fin n × Fin n) : HubCol D :=
   if h : 3 ≤ columnDegreeOn D e.2 then ⟨e.2, h⟩ else ⟨(T.rp e.1).2, T.rp_hub e.1⟩
 
 theorem row_of_hub {e : Fin n × Fin n} (h : 3 ≤ rowDegreeOn D e.1) :
-    T.row e = ⟨e.1, h⟩ := dif_pos h
+    T.row e = ⟨e.1, h⟩ := dite_eq_left h
 
 theorem col_of_hub {e : Fin n × Fin n} (h : 3 ≤ columnDegreeOn D e.2) :
-    T.col e = ⟨e.2, h⟩ := dif_pos h
+    T.col e = ⟨e.2, h⟩ := dite_eq_left h
 
 theorem row_val_of_long {e : Fin n × Fin n} (he : e ∈ longSet D) :
     (T.row e).1 = (T.cp e.2).2 := by
   have h := (mem_longSet.1 he).1
-  rw [row, dif_neg (by omega)]
+  rw [row, dite_eq_right (by omega)]
 
 theorem col_val_of_long {e : Fin n × Fin n} (he : e ∈ longSet D) :
     (T.col e).1 = (T.rp e.1).2 := by
   have h := (mem_longSet.1 he).2.1
-  rw [col, dif_neg (by omega)]
+  rw [col, dite_eq_right (by omega)]
 
 theorem rp_fst_of_long {e : Fin n × Fin n} (he : e ∈ longSet D) : (T.rp e.1).1 = e.2 := by
   obtain ⟨hr, hc, hD⟩ := mem_longSet.1 he
@@ -271,7 +271,8 @@ noncomputable def eR (hr2 : ∀ x, 2 ≤ rowDegreeOn D x) : Fin n ≃ HubRow D �
     · have hnh : ¬3 ≤ rowDegreeOn D e.1.1 := by
         have := (mem_longSet.1 e.2).1
         omega
-      simp only [Sum.elim_inr, hnh, dif_neg, not_false_eq_true]
+      dsimp only [Sum.elim_inr]
+      rw [dite_eq_right hnh]
       congr 1
       apply Subtype.ext
       exact Prod.ext rfl (T.rp_fst_of_long e.2)
@@ -291,7 +292,8 @@ noncomputable def eC (hc2 : ∀ y, 2 ≤ columnDegreeOn D y) : Fin n ≃ HubCol 
     · have hnh : ¬3 ≤ columnDegreeOn D e.1.2 := by
         have := (mem_longSet.1 e.2).2.1
         omega
-      simp only [Sum.elim_inr, hnh, dif_neg, not_false_eq_true]
+      dsimp only [Sum.elim_inr]
+      rw [dite_eq_right hnh]
       congr 1
       apply Subtype.ext
       exact Prod.ext (T.cp_fst_of_long e.2) rfl
@@ -391,10 +393,10 @@ theorem three_le_rowOcc (hc2 : ∀ y, 2 ≤ columnDegreeOn D y) (u : HubRow D) :
     have hD : D u.1 y := by simpa [mem_rowNeighborsOn] using hy
     rw [rowOcc, Finset.mem_filter]
     by_cases hyh : 3 ≤ columnDegreeOn D y
-    · simp only [f, hyh, if_true]
+    · simp only [f, hyh, ite_true]
       exact ⟨mem_occSet.2 (Or.inl (mem_directSet.2 ⟨u.2, hyh, hD⟩)),
         T.row_of_hub (e := (u.1, y)) u.2⟩
-    · simp only [f, hyh, if_false]
+    · simp only [f, hyh, ite_false]
       have hmem := T.mem_longSet_cp hc2 hyh
       refine ⟨longSet_subset_occSet hmem, Subtype.ext ?_⟩
       rw [T.row_val_of_long hmem]
@@ -428,10 +430,10 @@ theorem three_le_colOcc (hr2 : ∀ x, 2 ≤ rowDegreeOn D x) (v : HubCol D) :
     have hD : D x v.1 := by simpa [mem_rowNeighborsOn] using hx
     rw [colOcc, Finset.mem_filter]
     by_cases hxh : 3 ≤ rowDegreeOn D x
-    · simp only [f, hxh, if_true]
+    · simp only [f, hxh, ite_true]
       exact ⟨mem_occSet.2 (Or.inl (mem_directSet.2 ⟨hxh, v.2, hD⟩)),
         T.col_of_hub (e := (x, v.1)) v.2⟩
-    · simp only [f, hxh, if_false]
+    · simp only [f, hxh, ite_false]
       have hmem := T.mem_longSet_rp hr2 hxh
       refine ⟨longSet_subset_occSet hmem, Subtype.ext ?_⟩
       rw [T.col_val_of_long hmem]

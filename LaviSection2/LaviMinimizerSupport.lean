@@ -56,7 +56,7 @@ theorem exists_perm_support_of_doublyStochastic {A : Square n}
       rw [Finset.sum_congr rfl fun i _ => hrowf i]
       simp
     have h2 : ∑ i, ∑ j ∈ T, A i j = T.card := by
-      rw [Finset.sum_comm, Finset.sum_congr rfl fun j _ => hcol j]
+      rw [Finset.sum_comm (f := fun i j => A i j), Finset.sum_congr rfl fun j _ => hcol j]
       simp
     have hle : (s.card : ℝ) ≤ T.card := by
       rw [← h1, ← h2]
@@ -274,7 +274,7 @@ theorem exists_transfer {S : Fin n → Fin n → Prop} {p q : Fin n}
   · have := congrFun hb (Sum.inl a)
     simpa [boundary, vertexIndicator] using this
   · have := congrFun hb (Sum.inr b)
-    simp only [boundary, vertexIndicator, Pi.sub_apply, reduceCtorEq, if_false,
+    simp only [boundary, vertexIndicator, Pi.sub_apply, reduceCtorEq, ite_false,
       Sum.inr.injEq, zero_sub, neg_inj] at this
     exact this
 
@@ -366,7 +366,7 @@ theorem faceMinimizer_support_fullyIndecomposable {m : ℕ}
       simp [hcardC]
     have hsplit : ∑ j ∈ Cᶜ, ∑ i, A i j =
         ∑ i ∈ R, ∑ j ∈ Cᶜ, A i j + ∑ j ∈ Cᶜ, ∑ i ∈ Rᶜ, A i j := by
-      rw [Finset.sum_comm (s := R)]
+      rw [Finset.sum_comm (s := R) (f := fun i j => A i j)]
       rw [← Finset.sum_add_distrib]
       refine Finset.sum_congr rfl fun j _ => ?_
       exact (Finset.sum_add_sum_compl R fun i => A i j).symm
@@ -430,8 +430,8 @@ theorem faceMinimizer_support_fullyIndecomposable {m : ℕ}
       SimpleGraph.ConnectedComponent.exact (hrκ.trans (mem_compCols.1 hcκ).symm)
     obtain ⟨Z, hZ, hZrow, hZcol⟩ := exists_transfer hreach
     have hcons := closedPair_conservation hRCc hZ
-    simp only [hZrow, hZcol, Finset.sum_ite_eq', hr, if_true, Finset.mem_compl, hc,
-      not_true_eq_false, if_false] at hcons
+    simp only [hZrow, hZcol, Finset.sum_ite_eq', hr, ite_true, Finset.mem_compl, hc,
+      not_true_eq_false, ite_false] at hcons
     norm_num at hcons
   -- Each component has a `D`-edge leaving it.
   have hout : ∀ κ : G.ConnectedComponent, ∃ a b, a ∈ compRows S κ ∧
@@ -545,7 +545,7 @@ theorem faceMinimizer_support_fullyIndecomposable {m : ℕ}
       · rw [hz, zero_mul, zero_mul]
       · rw [faceMinimizer_cofactor_eq hA (hZt κ a b hz)]
     simp only [this, ← Finset.sum_mul, hZrow, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true, one_mul]
+      ite_true, one_mul]
   have hval : ∑ a, ∑ b, X a b * cofactor A a b = -(Cyc.card : ℝ) * P := by
     have hexp : ∀ a b, X a b * cofactor A a b =
         ∑ κ ∈ Cyc, (unitAt (ea κ) (eb κ) a b * cofactor A a b -

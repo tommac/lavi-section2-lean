@@ -315,7 +315,7 @@ theorem permanent_expandedMatrix_uniform_order_one (hbal : Fintype.card U = Fint
     change (∏ ℓ ∈ (univ : Finset E),
       if e = ℓ then 1 / (Fintype.card E : ℝ) else 1 - 1 / (Fintype.card E : ℝ)) = _
     rw [Finset.prod_ite, Finset.prod_const, Finset.prod_const, Finset.filter_eq,
-      if_pos (mem_univ e), Finset.card_singleton, pow_one, Finset.filter_ne,
+      ite_eq_left (mem_univ e), Finset.card_singleton, pow_one, Finset.filter_ne,
       Finset.card_erase_of_mem (mem_univ e), Finset.card_univ]
   rw [Finset.sum_congr rfl fun e _ => hterm e, Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
   exact uniform_weight_arith (by omega)

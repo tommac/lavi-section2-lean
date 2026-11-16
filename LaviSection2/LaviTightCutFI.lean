@@ -140,7 +140,7 @@ theorem rowNeighborsOn_cutRight (R : Finset (Unit ⊕ α₂)) :
   classical
   ext b
   by_cases hm : Sum.inl () ∈ R
-  · simp only [if_pos hm, mem_union, mem_rowNeighborsOn, mem_nbX, mem_nbQ, mem_toRight]
+  · simp only [ite_eq_left hm, mem_union, mem_rowNeighborsOn, mem_nbX, mem_nbQ, mem_toRight]
     constructor
     · rintro ⟨i, hi, hS'⟩
       cases i with
@@ -149,7 +149,7 @@ theorem rowNeighborsOn_cutRight (R : Finset (Unit ⊕ α₂)) :
     · rintro (⟨a, _, ha⟩ | ⟨a, ha, hS'⟩)
       · exact ⟨Sum.inl (), hm, a, ha⟩
       · exact ⟨Sum.inr a, ha, hS'⟩
-  · simp only [if_neg hm, empty_union, mem_rowNeighborsOn, mem_nbQ, mem_toRight]
+  · simp only [ite_eq_right hm, empty_union, mem_rowNeighborsOn, mem_nbQ, mem_toRight]
     constructor
     · rintro ⟨i, hi, hS'⟩
       cases i with
@@ -191,8 +191,8 @@ theorem fiRel_cut_iff (hS : ∀ a b, ¬ S (Sum.inr a) (Sum.inl b))
       rw [card_rowNeighborsOn_cutLeft]
       have := hXQle A univ
       by_cases hP : (nbX S A).Nonempty
-      · rw [if_pos hP]; omega
-      · rw [if_neg hP]
+      · rw [ite_eq_left hP]; omega
+      · rw [ite_eq_right hP]
         have key2 := hH (A.disjSum ∅) (by
           obtain ⟨a, ha⟩ := hA; exact ⟨Sum.inl a, inl_mem_disjSum.2 ha⟩)
           (by rw [card_disjSum, card_empty, hcardα]; omega)
@@ -214,7 +214,7 @@ theorem fiRel_cut_iff (hS : ∀ a b, ¬ S (Sum.inr a) (Sum.inl b))
         have := card_le_univ R.toLeft; rwa [Fintype.card_unit] at this
       rw [Fintype.card_sum, Fintype.card_unit] at hRc
       by_cases hm : Sum.inl () ∈ R
-      · rw [if_pos hm]
+      · rw [ite_eq_left hm]
         have hl1 : R.toLeft.card = 1 :=
           le_antisymm hleft (card_pos.2 ⟨(), mem_toLeft.2 hm⟩)
         have key := hH (univ.disjSum R.toRight) (by
@@ -224,7 +224,7 @@ theorem fiRel_cut_iff (hS : ∀ a b, ¬ S (Sum.inr a) (Sum.inl b))
           card_univ] at key
         have := hLle univ
         omega
-      · rw [if_neg hm, empty_union]
+      · rw [ite_eq_right hm, empty_union]
         have hl0 : R.toLeft.card = 0 := by
           rw [card_eq_zero, eq_empty_iff_forall_notMem]
           intro t ht; cases t; exact hm (mem_toLeft.1 ht)
@@ -315,7 +315,7 @@ theorem fiRel_cut_iff (hS : ∀ a b, ¬ S (Sum.inr a) (Sum.inl b))
         (by
           have := card_le_univ B
           rw [card_disjSum, card_empty, Fintype.card_sum, Fintype.card_unit]; omega)
-      rw [rowNeighborsOn_cutRight, if_neg (by rw [inl_mem_disjSum]; exact notMem_empty _),
+      rw [rowNeighborsOn_cutRight, ite_eq_right (by rw [inl_mem_disjSum]; exact notMem_empty _),
         empty_union, toRight_disjSum, card_disjSum, card_empty] at this
       omega
     have hXQ : ∀ B : Finset α₂, B.card < Fintype.card α₂ →
@@ -323,7 +323,7 @@ theorem fiRel_cut_iff (hS : ∀ a b, ¬ S (Sum.inr a) (Sum.inl b))
       intro B hBc
       have := h2H ((univ : Finset Unit).disjSum B) ⟨Sum.inl (), inl_mem_disjSum.2 (mem_univ _)⟩
         (by rw [card_disjSum, card_univ, Fintype.card_sum, Fintype.card_unit]; omega)
-      rw [rowNeighborsOn_cutRight, if_pos (inl_mem_disjSum.2 (mem_univ _)), toRight_disjSum,
+      rw [rowNeighborsOn_cutRight, ite_eq_left (inl_mem_disjSum.2 (mem_univ _)), toRight_disjSum,
         card_disjSum, card_univ, Fintype.card_unit] at this
       omega
     have hA : ∀ A : Finset α₁, A.Nonempty → A.card < Fintype.card α₁ →
@@ -361,7 +361,7 @@ theorem fiRel_cut_iff (hS : ∀ a b, ¬ S (Sum.inr a) (Sum.inl b))
         · have hAlt : R.toLeft.card < Fintype.card α₁ := lt_of_le_of_ne hAc hAu
           have hHall := hA _ hA0 hAlt
           by_cases hP : (nbX S R.toLeft).Nonempty
-          · rw [if_pos hP] at hHall
+          · rw [ite_eq_left hP] at hHall
             rcases R.toRight.eq_empty_or_nonempty with hB0 | hB0
             · have hXne := hP
               have : 1 ≤ (nbX S R.toLeft ∪ nbQ S R.toRight).card :=
@@ -370,7 +370,7 @@ theorem fiRel_cut_iff (hS : ∀ a b, ¬ S (Sum.inr a) (Sum.inl b))
               omega
             · have := hQ _ hB0
               omega
-          · rw [if_neg hP] at hHall
+          · rw [ite_eq_right hP] at hHall
             omega
     · intro i
       cases i with
@@ -445,7 +445,7 @@ theorem coreAdj₁_iff (O : Finset E) (a : K.U₁) (c : K.V₁ ⊕ Unit) :
       refine ⟨⟨e, hs⟩, he, Subtype.ext hr, ?_⟩
       have hsc : K.sC (col e) := by rw [hc]; exact b.2
       unfold col₁
-      rw [dif_pos hsc]
+      rw [dite_eq_left hsc]
       exact congrArg Sum.inl (Subtype.ext hc)
   | inr t =>
     simp only [cutLeft, sumAdj, coreAdj, Equiv.sumCompl_apply_inl, Equiv.sumCompl_apply_inr,

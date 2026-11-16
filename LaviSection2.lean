@@ -1,4 +1,4 @@
--- Lean 4 formalization of Y. Lavi's preprint on Foregger's conjecture, Sections 2-7, conditional on Gurvits's capacity inequality.
+-- Lean 4 formalization of Y. Lavi's preprint on Foregger's conjecture, Sections 2-7, with Gurvits's capacity inequality proved from the RealRooted library.
 import LaviSection2.Definitions
 import LaviSection2.LaviCanonicalExpansion
 import LaviSection2.LaviCofactorEqualization
@@ -41,3 +41,5 @@ import LaviSection2.LaviContractionBranch
 import LaviSection2.LaviEqualityCase
 import LaviSection2.LaviInduction
 import LaviSection2.LaviTheorem11
+import LaviSection2.GurvitsRealRooted
+import LaviSection2.LaviTheorem11Unconditional

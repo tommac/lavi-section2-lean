@@ -144,12 +144,12 @@ theorem prod_rowSet_ite (M : LMatch row col) (x : E → ℝ) (u : U) :
     simp only [rowSet, mem_filter, mem_univ, true_and]; exact M.2.1 u
   rw [← Finset.mul_prod_erase _ _ hmem]
   congr 1
-  · rw [M.2.1 u, if_pos rfl]
+  · rw [M.2.1 u, ite_eq_left rfl]
   · refine Finset.prod_congr rfl fun f hf => ?_
     have hru : row f = u := by
       have := (Finset.mem_erase.1 hf).2
       simpa [rowSet] using this
-    rw [hru, if_neg (Ne.symm (Finset.mem_erase.1 hf).1)]
+    rw [hru, ite_eq_right (Ne.symm (Finset.mem_erase.1 hf).1)]
 
 /-- **Lavi (5.2), termwise.** The weight of a matching in the expansion equals
 its weight in the eliminated matrix. -/
@@ -203,22 +203,22 @@ theorem expandedMatrix_apply (eR : Fin n ≃ U ⊕ ↥L) (eC : Fin n ≃ V ⊕ �
   rw [Finset.sum_filter, Fintype.sum_sum_type, Fintype.sum_sum_type, Fintype.sum_sum_type]
   rcases r with u | ℓ <;> rcases c with w | ℓ'
   · simp only [expRow, expCol, expFlow, Prod.mk.injEq, Sum.inl.injEq, reduceCtorEq, and_false,
-      false_and, if_false, Finset.sum_const_zero, add_zero]
+      false_and, ite_false, Finset.sum_const_zero, add_zero]
     rw [Finset.sum_filter]
   · simp only [expRow, expCol, expFlow, Prod.mk.injEq, Sum.inl.injEq, Sum.inr.injEq, reduceCtorEq,
-      and_false, false_and, if_false, Finset.sum_const_zero, add_zero, zero_add]
+      and_false, false_and, ite_false, Finset.sum_const_zero, add_zero, zero_add]
     rw [Fintype.sum_eq_single ℓ' (fun b hb => by simp [hb])]
     by_cases h : row ℓ'.1 = u <;> simp [h]
   · simp only [expRow, expCol, expFlow, Prod.mk.injEq, Sum.inl.injEq, Sum.inr.injEq, reduceCtorEq,
-      and_false, false_and, if_false, Finset.sum_const_zero, add_zero, zero_add]
+      and_false, false_and, ite_false, Finset.sum_const_zero, add_zero, zero_add]
     rw [Fintype.sum_eq_single ℓ (fun b hb => by simp [hb])]
     by_cases h : col ℓ.1 = w <;> simp [h]
   · simp only [expRow, expCol, expFlow, Prod.mk.injEq, Sum.inl.injEq, Sum.inr.injEq, reduceCtorEq,
-      and_false, false_and, if_false, Finset.sum_const_zero, add_zero, zero_add]
+      and_false, false_and, ite_false, Finset.sum_const_zero, add_zero, zero_add]
     by_cases h : ℓ = ℓ'
     · subst h; simp
-    · rw [if_neg h]
-      exact Finset.sum_eq_zero fun b _ => if_neg fun hb => h (hb.1.symm.trans hb.2)
+    · rw [ite_eq_right h]
+      exact Finset.sum_eq_zero fun b _ => ite_eq_right fun hb => h (hb.1.symm.trans hb.2)
 
 variable {row col L}
 
@@ -310,7 +310,7 @@ theorem eq_expandedMatrix_liftFlow (hY : InFace (expSupport row col L eR eC) Y) 
       intro d hd
       obtain ⟨hu, hw⟩ := (Finset.mem_filter.1 hd).2
       unfold liftFlow directMult
-      rw [dif_neg d.2, hu, hw]
+      rw [dite_eq_right d.2, hu, hw]
     rw [Finset.sum_congr rfl hterm, Finset.sum_const, nsmul_eq_mul]
     rcases S.eq_empty_or_nonempty with h0 | hne
     · rw [h0, Finset.card_empty, Nat.cast_zero, zero_mul]
@@ -323,32 +323,32 @@ theorem eq_expandedMatrix_liftFlow (hY : InFace (expSupport row col L eR eC) Y) 
       field_simp
   · -- core row to private column
     by_cases h : row ℓ'.1 = u
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       subst h
       have h1 := privateCol_sum hY ℓ'
       have h2 := privateRow_sum hY ℓ'
       unfold liftFlow
-      rw [dif_pos ℓ'.2]
+      rw [dite_eq_left ℓ'.2]
       linarith
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact entry_eq_zero hY _ _ (by rw [exists_expEdge_iff]; exact h)
   · -- private row to core column
     by_cases h : col ℓ.1 = w
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       subst h
       unfold liftFlow
-      rw [dif_pos ℓ.2]
-    · rw [if_neg h]
+      rw [dite_eq_left ℓ.2]
+    · rw [ite_eq_right h]
       exact entry_eq_zero hY _ _ (by rw [exists_expEdge_iff]; exact h)
   · -- private block
     by_cases h : ℓ = ℓ'
-    · rw [if_pos h]
+    · rw [ite_eq_left h]
       subst h
       have h2 := privateRow_sum hY ℓ
       unfold liftFlow
-      rw [dif_pos ℓ.2]
+      rw [dite_eq_left ℓ.2]
       linarith
-    · rw [if_neg h]
+    · rw [ite_eq_right h]
       exact entry_eq_zero hY _ _ (by rw [exists_expEdge_iff]; exact h)
 
 theorem liftFlow_nonneg (hY : InFace (expSupport row col L eR eC) Y) (e : E) :
@@ -363,7 +363,7 @@ theorem liftFlow_le_one (hY : InFace (expSupport row col L eR eC) Y) {e : E} (he
   have h2 := privateRow_sum hY ⟨e, he⟩
   have := hY.1.1 (eR.symm (Sum.inr ⟨e, he⟩)) (eC.symm (Sum.inr ⟨e, he⟩))
   unfold liftFlow
-  rw [dif_pos he]
+  rw [dite_eq_left he]
   linarith
 
 variable (row col L)
@@ -373,7 +373,7 @@ theorem sum_expFlow_row (x : E → ℝ) (u : U) :
       expFlow L x f = ∑ e ∈ rowSet row u, x e := by
   classical
   rw [Finset.sum_filter, Fintype.sum_sum_type, Fintype.sum_sum_type, Fintype.sum_sum_type]
-  simp only [expRow, expFlow, reduceCtorEq, if_false, Finset.sum_const_zero, add_zero,
+  simp only [expRow, expFlow, reduceCtorEq, ite_false, Finset.sum_const_zero, add_zero,
     Sum.inl.injEq]
   rw [rowSet, Finset.sum_filter, ← Fintype.sum_subtype_add_sum_subtype (fun e => e ∈ L), add_comm]
   convert rfl
@@ -383,7 +383,7 @@ theorem sum_expFlow_col (x : E → ℝ) (w : V) :
       expFlow L x f = ∑ e ∈ (univ : Finset E).filter (fun e => col e = w), x e := by
   classical
   rw [Finset.sum_filter, Fintype.sum_sum_type, Fintype.sum_sum_type, Fintype.sum_sum_type]
-  simp only [expCol, expFlow, reduceCtorEq, if_false, Finset.sum_const_zero, zero_add,
+  simp only [expCol, expFlow, reduceCtorEq, ite_false, Finset.sum_const_zero, zero_add,
     Sum.inl.injEq]
   rw [Finset.sum_filter, ← Fintype.sum_subtype_add_sum_subtype (fun e => e ∈ L), add_comm]
   convert rfl

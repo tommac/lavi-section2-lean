@@ -258,10 +258,10 @@ theorem gurvitsG_pos (d : ℕ) : 0 < gurvitsG d := by
 /-- Gurvits's `g` is antitone (Gurvits, Definition 2.1(6)). -/
 theorem gurvitsG_anti {d e : ℕ} (h : d ≤ e) : gurvitsG e ≤ gurvitsG d := by
   rcases Nat.lt_or_ge d 2 with hd | hd
-  · have hgd : gurvitsG d = 1 := by unfold gurvitsG; rw [if_pos (by omega)]
+  · have hgd : gurvitsG d = 1 := by unfold gurvitsG; rw [ite_eq_left (by omega)]
     rw [hgd]
     rcases Nat.lt_or_ge e 2 with he | he
-    · unfold gurvitsG; rw [if_pos (by omega)]
+    · unfold gurvitsG; rw [ite_eq_left (by omega)]
     · rw [gurvitsG_eq e (by omega)]
       have := colFactor_anti (by norm_num) he
       rw [show colFactor 2 = 1 by unfold colFactor; norm_num] at this

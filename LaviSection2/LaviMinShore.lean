@@ -80,7 +80,7 @@ theorem shore_of_factor₁ (hnt : 3 ≤ Fintype.card K.U₂ + Fintype.card K.V�
       · obtain ⟨hs, hmem⟩ := (hC' (col e)).1 he
         have hr : K.sR (row e) := K.back e hs
         have hcol : K.col₁ ⟨e, hr⟩ = Sum.inl ⟨col e, hs⟩ := by
-          unfold col₁; rw [dif_pos hs]
+          unfold col₁; rw [dite_eq_left hs]
         have := hbw ⟨e, hr⟩ (by rw [hcol]; exact hmem)
         exact (hR' (row e)).2 ⟨hr, this⟩
       · rw [card_filter_mem, card_filter_mem, hRc, hCc]
@@ -93,7 +93,7 @@ theorem shore_of_factor₁ (hnt : 3 ≤ Fintype.card K.U₂ + Fintype.card K.V�
           have h1 : K.col₁ ⟨e, hr⟩ = Sum.inr () := (K.col₁_eq_inr_iff _).2 hs
           rw [h1] at this; exact hm this
         have hcol : K.col₁ ⟨e, hr⟩ = Sum.inl ⟨col e, hs⟩ := by
-          unfold col₁; rw [dif_pos hs]
+          unfold col₁; rw [dite_eq_left hs]
         rw [hcol] at this
         exact (hC' (col e)).2 ⟨hs, this⟩
       · rw [card_filter_mem, card_filter_mem, hRc, hCc]
@@ -217,7 +217,7 @@ theorem card_colSet₁ (w : K.V₁) :
   · have hc : col e = w.1 := (mem_filter.1 he).2
     have hs : K.sC (col e) := hc ▸ w.2
     refine ⟨⟨e, K.back e hs⟩, mem_filter.2 ⟨mem_univ _, ?_⟩, rfl⟩
-    unfold col₁; rw [dif_pos hs]; exact congrArg Sum.inl (Subtype.ext hc)
+    unfold col₁; rw [dite_eq_left hs]; exact congrArg Sum.inl (Subtype.ext hc)
 
 theorem card_rowSet₂ (u : K.U₂) :
     (rowSet K.row₂ (Sum.inr u)).card = (rowSet row u.1).card := by
@@ -246,9 +246,12 @@ variable (hbal : Fintype.card U = Fintype.card V)
   (hcov : ∀ e, ∃ M : LMatch row col, M.1 (row e) = e)
 
 include hbal hcov in
-/-- **Lavi Lemma 6.2 (minimum-shore leaf).**  Let `H` be a balanced core in
-which every occurrence lies in a perfect matching (true for every FI core;
-here it is the hypothesis `hcov`).  If `H` has a nontrivial tight cut, then
+/-- **Lavi Lemma 6.2 (minimum-shore leaf).**  Let `H` be a balanced core with
+at least one occurrence (`[Nonempty E]`) in which every occurrence lies in a
+perfect matching.  That holds for every FI core, but the implication is not
+formalized: here it is the hypothesis `hcov`, which Section 7 obtains from a
+positive law (`covered_of_positive_flow`).  If `H` has a nontrivial tight cut,
+then
 some oriented cut `K` of `H` has at least three vertices on each shore and
 closes one of its shores to a leaf: `H₁` is cut-free or `H₂` is cut-free.
 

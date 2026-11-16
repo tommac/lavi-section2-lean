@@ -10,9 +10,10 @@ import LaviSection2.LaviCutFree
 * `lavi_corollary_5_2_col`: Corollary 5.2 with a distinguished column
   ("transposition proves the column version").
 * `lavi_eq_6_1`, `lavi_eq_6_1'`: if a closed factor of order at least three is
-  cut-free, the correction set `N` of (4.5) is empty, every non-marker
-  occurrence is long in `B`, and `G_B ≥ log (8192/6561) > 0` (Lavi (6.1)),
-  assuming Gurvits's inequality.  The marker may be a column (`H₁`) or a row
+  cut-free, the correction set `N` of (4.5) is empty and
+  `G_B ≥ log (8192/6561) > 0` (Lavi (6.1)), assuming Gurvits's inequality.
+  (That every non-marker occurrence is long in `B` is a step of the proof,
+  not part of the statement.)  The marker may be a column (`H₁`) or a row
   (`H₂`).
 -/
 

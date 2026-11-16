@@ -66,7 +66,7 @@ theorem prod_gurvitsG_ge {k : ℕ} (hk : 3 ≤ k) (c : Fin k → ℕ) (hc : ∀ 
     unfold gurvitsG; norm_num
   have hrest : ∏ j : Fin m, colFactor (c j.succ.succ) / 2 ≤
       ∏ j : Fin m, gurvitsG (min (c j.succ.succ) (j.succ.succ.val + 1)) := by
-    refine Finset.prod_le_prod (fun j _ => (div_pos (hC0 _) two_pos).le) fun j _ => ?_
+    refine Finset.prod_le_prod₀ (fun j _ => (div_pos (hC0 _) two_pos).le) fun j _ => ?_
     have hmin3 : 3 ≤ min (c j.succ.succ) (j.succ.succ.val + 1) := by
       simp only [Fin.val_succ]; exact le_min (hc _) (by omega)
     rw [gurvitsG_eq _ (by omega)]
@@ -121,7 +121,7 @@ theorem oneStar_bound_elim (hG : GurvitsCapacityInequality) {x : E → ℝ}
     div_nonneg (by rw [rowFactor_eq_exp (hr2 u)]; positivity) (by positivity)
   have hgdeg : ∏ j : Fin k, gurvitsG (min (colCount row col v (eC' j)) (j.val + 1)) ≤
       ∏ j : Fin k, gurvitsG (min (colDegree M j) (j.val + 1)) :=
-    Finset.prod_le_prod (fun j _ => (gurvitsG_pos _).le) fun j _ =>
+    Finset.prod_le_prod₀ (fun j _ => (gurvitsG_pos _).le) fun j _ =>
       gurvitsG_anti (min_le_min_right _ (colDegree_elim_le eR' eC' j))
   have hgc := prod_gurvitsG_ge hk (fun j => colCount row col v (eC' j)) (fun j => hc3 _)
   set PC := ∏ w, colFactor (colCount row col v w)
@@ -150,7 +150,7 @@ theorem oneStar_bound_elim (hG : GurvitsCapacityInequality) {x : E → ℝ}
   have hPA : (32 / 27 : ℝ) ^ (m + 2) * (729 / 512) ^ p ≤ PA := by
     have hsec : ∏ u ∈ (univ : Finset U).erase v,
         (32 / 27 * (729 / 512 : ℝ) ^ ((rowSet row u).card - 3)) ≤ PA :=
-      Finset.prod_le_prod (fun u _ => by positivity) fun u _ => rowFactor_secant (hr3 u)
+      Finset.prod_le_prod₀ (fun u _ => by positivity) fun u _ => rowFactor_secant (hr3 u)
     have hexp : ∑ u ∈ (univ : Finset U).erase v, ((rowSet row u).card - 3) = p := by
       have h := Finset.sum_tsub_distrib ((univ : Finset U).erase v) (fun u _ => hr3 u)
       rw [h, hsumr, Finset.sum_const, hcard_erase, smul_eq_mul]
@@ -160,7 +160,7 @@ theorem oneStar_bound_elim (hG : GurvitsCapacityInequality) {x : E → ℝ}
     exact hsec
   have hPCb : (8 / 9 : ℝ) ^ (m + 3) * (243 / 256) ^ (p + m) ≤ PC := by
     have hsec : ∏ w, (8 / 9 * (243 / 256 : ℝ) ^ (colCount row col v w - 3)) ≤ PC :=
-      Finset.prod_le_prod (fun w _ => by positivity) fun w _ => colFactor_secant (hc3 w)
+      Finset.prod_le_prod₀ (fun w _ => by positivity) fun w _ => colFactor_secant (hc3 w)
     have hexp : ∑ w, (colCount row col v w - 3) ≤ p + m := by
       have h := Finset.sum_tsub_distrib (univ : Finset V) (fun w _ => hc3 w)
       rw [h, Finset.sum_const, Finset.card_univ, hcardV, smul_eq_mul]

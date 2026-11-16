@@ -271,7 +271,7 @@ theorem doublyStochastic_contractMatrix {m : ℕ} (A : Square (m + 1))
           exact fun h => hi (Fin.succAbove_right_injective h)
         simp [contractMatrix, hne, hi]
     simp only [hsplit, Finset.sum_add_distrib, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true]
+      ite_true]
     have h := hcol (c.succAbove j)
     rw [Fin.sum_univ_succAbove _ s] at h
     linarith

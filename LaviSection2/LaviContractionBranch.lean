@@ -81,7 +81,7 @@ theorem support_contractMatrix_iff {m : ℕ} {A : Square (m + 1)} (hA : Nonnegat
   have h1 := hA r (c.succAbove j)
   have h2 := hA s (c.succAbove j)
   by_cases h : s.succAbove i = r
-  · simp only [support, contractMatrix, contractColumn, finSuccAboveEquiv_apply, h, if_true]
+  · simp only [support, contractMatrix, contractColumn, finSuccAboveEquiv_apply, h, ite_true]
     constructor
     · intro hne
       by_contra hcon
@@ -90,7 +90,7 @@ theorem support_contractMatrix_iff {m : ℕ} {A : Square (m + 1)} (hA : Nonnegat
     · rintro (h' | h') hsum
       · exact h' (by linarith)
       · exact h' (by linarith)
-  · simp only [support, contractMatrix, contractColumn, finSuccAboveEquiv_apply, h, if_false]
+  · simp only [support, contractMatrix, contractColumn, finSuccAboveEquiv_apply, h, ite_false]
 
 /-- If the contraction of the support of a nonnegative matrix `A` at column `c` is nearly
 decomposable (in the generic sense used by `Terminal` and Lemma 2.4), then the support of

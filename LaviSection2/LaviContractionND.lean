@@ -99,7 +99,7 @@ theorem strictHallOn_of_contractColumn (S : α → β → Prop) {r s : α} (hrs 
       omega
     have h := hHall _ hne hprop
     rw [rowNeighborsOn_contractColumn_of_merged_not_mem S hrs hc _ hmNot, hlift,
-      card_restrictAway_eq, if_neg (not_mem_rowNeighborsOn_of_avoid S hc hrT hsT),
+      card_restrictAway_eq, ite_eq_right (not_mem_rowNeighborsOn_of_avoid S hc hrT hsT),
       Nat.sub_zero, hcardT] at h
     exact h
   -- Case C: exactly one merged row `x` present.
@@ -150,7 +150,7 @@ theorem strictHallOn_of_contractColumn (S : α → β → Prop) {r s : α} (hrs 
     have hcN : c ∈ rowNeighborsOn S R :=
       mem_rowNeighborsOn.2 ⟨r, hrR, (hc r).2 (Or.inl rfl)⟩
     rw [rowNeighborsOn_contractColumn_of_merged_mem S hrs _ hmMem, hins,
-      card_restrictAway_eq, if_pos hcN] at h
+      card_restrictAway_eq, ite_eq_left hcN] at h
     omega
   · exact hC R r ((hc r).2 (Or.inl rfl)) hr' hrR (Finset.notMem_erase r R)
       (fun h => hsR (Finset.mem_of_mem_erase h))
@@ -271,12 +271,12 @@ theorem lavi_lemma_2_4_column {n : ℕ} (hn : 3 ≤ n) (S : Fin n → Fin n → 
           by_cases hx : x.1 = r
           · have hxe : x = ⟨r, hrs⟩ := Subtype.ext hx
             subst hxe
-            simp only [deleteEdgeOn, contractColumn, deleteEdge, if_true, true_and,
+            simp only [deleteEdgeOn, contractColumn, deleteEdge, ite_true, true_and,
               Subtype.ext_iff, (Ne.symm hrs), false_and, not_false_eq_true, and_true]
             by_cases hy : y.1 = j.1
             · simp [hy, hnsj]
             · simp [hy]
-          · simp only [deleteEdgeOn, contractColumn, deleteEdge, hx, if_false,
+          · simp only [deleteEdgeOn, contractColumn, deleteEdge, hx, ite_false,
               Subtype.ext_iff, false_and, not_false_eq_true, and_true]
         obtain ⟨k, hkc, hkj, hrk⟩ := exists_neighbor_ne_ne_of_three_le S c j.1 hdr
         obtain ⟨k', hk'c, hsk'⟩ := exists_neighbor_ne_of_two_le S c hds2
@@ -289,13 +289,13 @@ theorem lavi_lemma_2_4_column {n : ℕ} (hn : 3 ≤ n) (S : Fin n → Fin n → 
           by_cases hx : x.1 = r
           · have hxe : x = ⟨r, hrs⟩ := Subtype.ext hx
             subst hxe
-            simp only [deleteEdgeOn, contractColumn, deleteEdge, if_true, true_and,
+            simp only [deleteEdgeOn, contractColumn, deleteEdge, ite_true, true_and,
               Subtype.ext_iff, hrs, false_and, not_false_eq_true, and_true]
             by_cases hy : y.1 = j.1
             · simp [hy, hnrj]
             · simp [hy]
           · have hxs : x.1 ≠ s := x.2
-            simp only [deleteEdgeOn, contractColumn, deleteEdge, hx, if_false,
+            simp only [deleteEdgeOn, contractColumn, deleteEdge, hx, ite_false,
               Subtype.ext_iff, hxs, false_and, not_false_eq_true, and_true]
         obtain ⟨k, hkc, hrk⟩ := exists_neighbor_ne_of_two_le S c hdr2
         obtain ⟨k', hk'c, hk'j, hsk'⟩ := exists_neighbor_ne_ne_of_three_le S c j.1 hds
@@ -310,9 +310,9 @@ theorem lavi_lemma_2_4_column {n : ℕ} (hn : 3 ≤ n) (S : Fin n → Fin n → 
       · have hxi : x ≠ i := fun h => him (h ▸ hx)
         have hri : r ≠ i.1 := fun h => him h.symm
         have hsi : s ≠ i.1 := fun h => his h.symm
-        simp only [deleteEdgeOn, contractColumn, deleteEdge, hx, if_true, hxi, hri, hsi,
+        simp only [deleteEdgeOn, contractColumn, deleteEdge, hx, ite_true, hxi, hri, hsi,
           false_and, not_false_eq_true, and_true]
-      · simp only [deleteEdgeOn, contractColumn, deleteEdge, hx, if_false,
+      · simp only [deleteEdgeOn, contractColumn, deleteEdge, hx, ite_false,
           Subtype.ext_iff]
     obtain ⟨k, hkc, hrk⟩ := exists_neighbor_ne_of_two_le S c hdr2
     obtain ⟨k', hk'c, hsk'⟩ := exists_neighbor_ne_of_two_le S c hds2

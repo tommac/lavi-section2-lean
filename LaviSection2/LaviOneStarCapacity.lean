@@ -8,10 +8,12 @@ import Mathlib.Analysis.MeanInequalities
 * `capacity` is Gurvits's `Cap(M) = inf_{y > 0} ∏_i (M y)_i / ∏_j y_j`.
 * `GurvitsCapacityInequality` is Gurvits's degree-sensitive capacity bound
   [Gurvits 2008, Theorem 2.4 and Corollary 2.7(a)] for permanents,
-  `per M ≥ Cap(M) ∏_j g(min(Δ_j, j))`, with columns in their given order.  It
-  is **not** proved here; Section 5 uses it only as an explicit hypothesis.
-* `rowSum_nonroot_ge`, `rowSum_root_ge`: Lavi's weighted AM–GM step (5.3),
-  sharpened by concavity of `h₂` to `(M y)_i ≥ (A_{r_i}/2^{r_i}) ∏ y^{x_e}`.
+  `per M ≥ Cap(M) ∏_j g(min(Δ_j, j))`, with columns in their given order.
+  Section 5 uses it as an explicit hypothesis; it is proved in
+  `GurvitsRealRooted.lean` (`gurvitsCapacityInequality`).
+* `rowSum_nonroot_ge`, `rowSum_root_ge`: Lavi's weighted AM–GM step (5.3)
+  combined with the concavity step of the paper (line 573), which weakens it
+  to `(M y)_i ≥ (A_{r_i}/2^{r_i}) ∏ y^{x_e}`.
 * `capacity_elim_ge`: (5.4) in the form
   `Cap(M) ≥ ∏_{i ≠ v} A_{r_i} / 2^{r_i}`.
 * `colDegree_elim_le`, `three_le_colCount`, `sum_colCount_le`: the degree
@@ -39,14 +41,17 @@ noncomputable def colDegree {n : ℕ} (M : Square n) (j : Fin n) : ℕ := by
 (aka hyperbolic) homogeneous polynomials: one theorem for all*, Electron. J.
 Combin. 15 (2008), Theorem 2.4 and Corollary 2.7(a)]: for a nonnegative
 `n × n` matrix with `Δ_j` nonzero entries in column `j`,
-`per M ≥ Cap(M) ∏_{j=1}^{n} g(min(Δ_j, j))`.  This is an external theorem,
-assumed (not proved) in this development.
+`per M ≥ Cap(M) ∏_{j=1}^{n} g(min(Δ_j, j))`.  The theorems of Sections 5–7
+take it as an explicit hypothesis `hG`; it is proved in
+`GurvitsRealRooted.lean` (`gurvitsCapacityInequality`) from the RealRooted
+library's formalization of Gurvits's argument.
 
 Relation to the published statements.  Gurvits writes the product over
 `j = 2, …, n` and defines `G` only for arguments `≥ 1`; the form used here,
 with the product from `j = 1` and `g(0) = g(1) = 1` for every nonnegative
 matrix, is the one stated by M. Laurent and A. Schrijver, *On Leonid Gurvits's
-proof for permanents*, Amer. Math. Monthly 117 (2010), 903–911, Corollary 1a.
+proof for permanents*, Amer. Math. Monthly 117 (2010), 903–911, Corollary 1a
+(eq. (32), p. 908).
 The two agree: the `j = 1` factor is `g(min(Δ₁, 1)) = 1`, and if `M` has a
 zero row or a zero column then `Cap(M) = 0`, so the inequality is `0 ≤ per M`.
 The bound depends on the order of the columns (column `j` is capped at `j`)
@@ -143,7 +148,7 @@ theorem rowSum_nonroot_ge (hx : StarFlow row col v x) {z : V → ℝ} (hz : ∀ 
   have hw : ∀ e ∈ S, elimWeight row v x e = x e * (x e * ∏ f ∈ S.erase e, (1 - x f)) := by
     intro e he
     unfold elimWeight
-    rw [if_neg (by rw [hrow e he]; exact hu), hrow e he]
+    rw [ite_eq_right (by rw [hrow e he]; exact hu), hrow e he]
   -- the AM–GM bound for the row sum
   have key : (∏ e ∈ S, (x e ^ x e * (1 - x e) ^ (1 - x e))) * ∏ e ∈ S, z (col e) ^ x e ≤
       rowSum row col v x z u := by
@@ -220,7 +225,7 @@ theorem rowSum_root_ge (hx : StarFlow row col v x) {z : V → ℝ} (hz : ∀ w, 
   have hw : ∀ e ∈ rowSet row v, elimWeight row v x e * z (col e) = x e * z (col e) := by
     intro e he
     unfold elimWeight
-    rw [if_pos (mem_rowSet.1 he), mul_one]
+    rw [ite_eq_left (mem_rowSet.1 he), mul_one]
   rw [Finset.sum_congr rfl hw]
   exact Real.geom_mean_le_arith_mean_weighted _ x _ (fun e _ => hx.nonneg e) (hx.row_sum v)
     (fun e _ => (hz _).le)
@@ -243,20 +248,20 @@ theorem prod_rowSum_ge (hx : StarFlow row col v x) {z : V → ℝ} (hz : ∀ w, 
     (if u = v then 1 else rowFactor (rowSet row u).card / 2 ^ (rowSet row u).card) *
       ∏ e ∈ rowSet row u, z (col e) ^ x e with hlower
   have hle : ∏ u, lower u ≤ ∏ u, rowSum row col v x z u := by
-    refine Finset.prod_le_prod (fun u _ => ?_) fun u _ => ?_
+    refine Finset.prod_le_prod₀ (fun u _ => ?_) fun u _ => ?_
     · refine mul_nonneg ?_ (Finset.prod_nonneg fun e _ => Real.rpow_nonneg (hz _).le _)
       split_ifs
       · exact zero_le_one
       · refine div_nonneg ?_ (by positivity)
         rw [rowFactor_eq_exp (hr u)]; positivity
     · by_cases h : u = v
-      · simp only [hlower, if_pos h, one_mul]; subst h; exact rowSum_root_ge hx hz
-      · simp only [hlower, if_neg h]; exact rowSum_nonroot_ge hx hz h (hr u)
+      · simp only [hlower, ite_eq_left h, one_mul]; subst h; exact rowSum_root_ge hx hz
+      · simp only [hlower, ite_eq_right h]; exact rowSum_nonroot_ge hx hz h (hr u)
   refine le_trans (le_of_eq ?_) hle
   rw [Finset.prod_mul_distrib]
   congr 1
-  · rw [← Finset.prod_erase_mul _ _ (mem_univ v), if_pos rfl, mul_one]
-    exact Finset.prod_congr rfl fun u hu => by rw [if_neg (Finset.ne_of_mem_erase hu)]
+  · rw [← Finset.prod_erase_mul _ _ (mem_univ v), ite_eq_left rfl, mul_one]
+    exact Finset.prod_congr rfl fun u hu => by rw [ite_eq_right (Finset.ne_of_mem_erase hu)]
   · rw [← prod_rpow_col hx hz, ← Finset.prod_fiberwise univ row (fun e => z (col e) ^ x e)]
     rfl
 
@@ -366,7 +371,7 @@ theorem three_le_colCount (hC : ∀ w, 3 ≤ (((univ : Finset E).filter fun e =>
     have hc := (Finset.mem_filter.1 he).2
     by_cases hv : row e = v
     · refine Finset.mem_union_right _ ?_
-      rw [if_pos ⟨e, mem_rowSet.2 hv, hc⟩]; exact Finset.mem_singleton.2 hv
+      rw [ite_eq_left ⟨e, mem_rowSet.2 hv, hc⟩]; exact Finset.mem_singleton.2 hv
     · refine Finset.mem_union_left _ (Finset.mem_image.2 ⟨e, Finset.mem_filter.2 ⟨?_, hc⟩, rfl⟩)
       simp only [offRoot, mem_filter, mem_univ, true_and]; exact hv
   have h1 := (hC w).trans ((card_le_card hsub).trans (Finset.card_union_le _ _))
@@ -394,9 +399,9 @@ theorem sum_rowSet_card :
   classical
   rw [Finset.card_eq_sum_card_fiberwise (f := row) (t := univ) (fun e _ => mem_univ _),
     ← Finset.sum_erase_add _ _ (mem_univ v)]
-  rw [offRoot_filter_row, if_pos rfl, Finset.card_empty, add_zero]
+  rw [offRoot_filter_row, ite_eq_left rfl, Finset.card_empty, add_zero]
   refine Finset.sum_congr rfl fun u hu => ?_
-  rw [offRoot_filter_row, if_neg (Finset.ne_of_mem_erase hu)]
+  rw [offRoot_filter_row, ite_eq_right (Finset.ne_of_mem_erase hu)]
 
 end Capacity
 

@@ -118,11 +118,11 @@ theorem exists_pos_le_nonzero_entries (X : Square (m + 1)) (hX : Nonnegative X) 
   have hfpos : ∀ q, 0 < f q := by
     intro q
     by_cases h : X q.1 q.2 ≠ 0
-    · simp only [f, if_pos h]; exact lt_of_le_of_ne (hX _ _) (Ne.symm h)
-    · simp only [f, if_neg h]; exact one_pos
+    · simp only [f, ite_eq_left h]; exact lt_of_le_of_ne (hX _ _) (Ne.symm h)
+    · simp only [f, ite_eq_right h]; exact one_pos
   refine ⟨f p, hfpos p, fun i j h => ?_⟩
   have := hp (i, j)
-  simp only [f, if_pos h] at this
+  simp only [f, ite_eq_left h] at this
   exact this
 
 /-- **Key step.**  Every doubly stochastic `X` is the marginal of the Gibbs

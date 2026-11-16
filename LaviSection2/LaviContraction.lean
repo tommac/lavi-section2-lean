@@ -506,9 +506,9 @@ theorem card_restrictAway_eq (T : Finset β) (c : β) :
   classical
   rw [card_restrictAway]
   by_cases hc : c ∈ T
-  · rw [if_pos hc]
+  · rw [ite_eq_left hc]
     exact Finset.card_erase_of_mem hc
-  · rw [if_neg hc]
+  · rw [ite_eq_right hc]
     simp [Finset.erase_eq_of_notMem hc]
 
 /--
@@ -543,7 +543,7 @@ theorem strictHallOn_contractColumn
         mem_liftContractedRows.mpr ⟨hrs, hm⟩, (hc r).2 (Or.inl rfl)⟩
     dsimp [Rold] at hRoldCard hOldStrict hcOld
     rw [rowNeighborsOn_contractColumn_of_merged_mem S hrs R hm,
-      card_restrictAway_eq, if_pos hcOld]
+      card_restrictAway_eq, ite_eq_left hcOld]
     omega
   · have hLiftCard : (liftContractedRows R).card = R.card :=
       card_liftContractedRows R
@@ -565,7 +565,7 @@ theorem strictHallOn_contractColumn
       · exact hm hiR
       · exact his rfl
     rw [rowNeighborsOn_contractColumn_of_merged_not_mem S hrs hc R hm,
-      card_restrictAway_eq, if_neg hcNot]
+      card_restrictAway_eq, ite_eq_right hcNot]
     omega
 
 /--
@@ -628,7 +628,7 @@ theorem rowDegreeOn_contractColumn_merged_eq_two
   have hNeighborhood := rowNeighborsOn_contractColumn_of_merged_mem
     (c := c) S hrs ({m} : Finset (Drop s)) hm
   change (rowNeighborsOn (contractColumn S r s c) {m}).card = 2
-  rw [hNeighborhood, card_restrictAway_eq, if_pos hcOld,
+  rw [hNeighborhood, card_restrictAway_eq, ite_eq_left hcOld,
     hOldNeighbors, hUnionCard]
 
 /--
