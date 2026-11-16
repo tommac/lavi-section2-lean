@@ -273,6 +273,8 @@ own version DOI on Zenodo:
   [doi:10.5281/zenodo.24260452](https://doi.org/10.5281/zenodo.24260452)
 - 1.2.0 (Sections 2–7, conditional on Gurvits's inequality):
   [doi:10.5281/zenodo.24267521](https://doi.org/10.5281/zenodo.24267521)
+- 1.3.0 (Theorem 1.1 without hypotheses):
+  [doi:10.5281/zenodo.24269323](https://doi.org/10.5281/zenodo.24269323)
 
 GitHub's "Cite this repository" button reads `CITATION.cff`. Please also cite
 Lavi's preprint for the mathematics, and RealRooted for the formalization of
